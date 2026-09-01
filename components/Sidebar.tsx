@@ -20,7 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView }) => {
     <aside className="w-64 bg-slate-900 text-white min-h-screen flex flex-col fixed left-0 top-0 overflow-y-auto shadow-xl z-50">
       <div className="p-6 border-b border-slate-700">
         <h1 className="text-2xl font-bold text-blue-400">FactuPro</h1>
-        <p className="text-xs text-slate-400 mt-1">Gestion Locale</p>
+        <p className="text-xs text-slate-400 mt-1">Gestion de Facturation</p>
       </div>
       
       <nav className="flex-1 py-6">
@@ -50,8 +50,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView }) => {
       <div className="p-4 border-t border-slate-800">
         <div className="bg-slate-800 rounded-lg p-3 text-xs text-slate-400">
           <p>Version 1.0.0</p>
-          <p className="text-blue-300 font-semibold mt-0.5">Édition Tunisie</p>
-          <p className="mt-1 opacity-75">Données locales.</p>
+          <p className="text-blue-300 font-semibold mt-0.5">Édition Professionnelle</p>
+          <p className="mt-1 opacity-75">Stockage local dans le navigateur.</p>
         </div>
       </div>
     </aside>

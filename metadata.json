@@ -1,6 +1,6 @@
 {
-  "name": "FactuPro Tunisie",
-  "description": "Application de gestion de factures (TND) et clients avec génération PDF, exécutable localement via navigateur.",
+  "name": "FactuPro",
+  "description": "Professional invoice and quote generator with multi-company management, PDF and Word (DOCX) export, and local persistence.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
