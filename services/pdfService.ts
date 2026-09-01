@@ -155,22 +155,26 @@ export const generateInvoicePDF = (invoice: Invoice) => {
     doc.setFont("helvetica", "bold");
     doc.setTextColor(41, 128, 185); // Bleu professionnel
     
-    // Split text pour éviter chevauchement si nom très long
-    const nameLines = doc.splitTextToSize(company.name.toUpperCase(), companyWidth);
-    doc.text(nameLines, companyX, companyY);
-    companyY += (nameLines.length * 6);
+    if (company.name) {
+      const nameLines = doc.splitTextToSize(company.name.toUpperCase(), companyWidth);
+      doc.text(nameLines, companyX, companyY);
+      companyY += (nameLines.length * 6);
+    }
 
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(80); // Gris foncé
     
-    // Adresse multiligne
-    const addressLines = doc.splitTextToSize(company.address, companyWidth);
-    doc.text(addressLines, companyX, companyY);
-    companyY += (addressLines.length * 5); // 5mm par ligne
+    if (company.address) {
+      const addressLines = doc.splitTextToSize(company.address, companyWidth);
+      doc.text(addressLines, companyX, companyY);
+      companyY += (addressLines.length * 5); // 5mm par ligne
+    }
 
-    doc.text(`MF: ${company.mf}`, companyX, companyY);
-    companyY += 5;
+    if (company.mf) {
+      doc.text(`MF: ${company.mf}`, companyX, companyY);
+      companyY += 5;
+    }
     
     if (company.phone) {
       doc.text(`Tél: ${company.phone}`, companyX, companyY);
@@ -234,22 +238,22 @@ export const generateInvoicePDF = (invoice: Invoice) => {
   doc.setFont("helvetica", "bold");
   
   // Nom du client (multiligne si besoin)
-  const clientNameLines = doc.splitTextToSize(client.name, clientWidth);
+  const clientName = client.name || 'Client';
+  const clientNameLines = doc.splitTextToSize(clientName, clientWidth);
   doc.text(clientNameLines, clientX, clientY);
-  // On ajuste Y en fonction du nombre de lignes du nom
-  clientY += (clientNameLines.length * 6); // ~6mm par ligne pour police 12
+  clientY += (clientNameLines.length * 6);
   
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(60);
   
   // Adresse client (multiligne si besoin)
-  const clientAddressLines = doc.splitTextToSize(client.address, clientWidth);
-  doc.text(clientAddressLines, clientX, clientY);
-  // On ajuste Y en fonction du nombre de lignes de l'adresse
-  clientY += (clientAddressLines.length * 5); // ~5mm par ligne pour police 10
+  if (client.address) {
+    const clientAddressLines = doc.splitTextToSize(client.address, clientWidth);
+    doc.text(clientAddressLines, clientX, clientY);
+    clientY += (clientAddressLines.length * 5);
+  }
   
-  // Un petit espace supplémentaire avant le MF pour la lisibilité
   clientY += 1; 
 
   if (client.mf) {

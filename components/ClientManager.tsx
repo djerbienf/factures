@@ -26,11 +26,15 @@ const ClientManager: React.FC = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     let updatedClients;
+    const clientToSave: Client = {
+      ...formData,
+      name: formData.name.trim() || 'Client sans nom',
+    };
     
     if (isEditing) {
-      updatedClients = clients.map(c => c.id === formData.id ? formData : c);
+      updatedClients = clients.map(c => c.id === formData.id ? clientToSave : c);
     } else {
-      const newClient = { ...formData, id: Date.now().toString() };
+      const newClient = { ...clientToSave, id: Date.now().toString() };
       updatedClients = [...clients, newClient];
     }
     
@@ -85,9 +89,8 @@ const ClientManager: React.FC = () => {
             <h3 className="text-xl font-bold mb-4 text-gray-800">{isEditing ? 'Modifier le Client' : 'Ajouter un Client'}</h3>
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Nom / Raison Sociale *</label>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Nom / Raison Sociale (Optionnel)</label>
                 <input
-                  required
                   type="text"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
                   value={formData.name}
@@ -106,14 +109,13 @@ const ClientManager: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Adresse Complète *</label>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Adresse Complète (Optionnel)</label>
                 <textarea
-                  required
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
                   value={formData.address}
                   onChange={e => setFormData({...formData, address: e.target.value})}
                   rows={3}
-                  placeholder="Adresse complète de facturation"
+                  placeholder="Adresse de facturation (optionnelle)"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">

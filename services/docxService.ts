@@ -36,10 +36,10 @@ export const generateInvoiceDOCX = async (invoice: Invoice) => {
             width: { size: 50, type: WidthType.PERCENTAGE },
             children: [
               new Paragraph({
-                children: [new TextRun({ text: company.name.toUpperCase(), bold: true, size: 28, color: "2E86C1" })],
+                children: [new TextRun({ text: (company.name || '').toUpperCase(), bold: true, size: 28, color: "2E86C1" })],
               }),
-              new Paragraph({ text: company.address }),
-              new Paragraph({ text: `MF: ${company.mf}` }),
+              new Paragraph({ text: company.address || "" }),
+              new Paragraph({ text: company.mf ? `MF: ${company.mf}` : "" }),
               new Paragraph({ text: company.phone ? `Tél: ${company.phone}` : "" }),
               new Paragraph({ text: company.email || "" }),
             ],
@@ -84,9 +84,9 @@ export const generateInvoiceDOCX = async (invoice: Invoice) => {
                         children: [
                             new Paragraph({ text: invoice.type === 'devis' ? "Devis pour :" : "Facturé à :", color: "666666" }),
                             new Paragraph({
-                                children: [new TextRun({ text: client.name, bold: true, size: 24 })],
+                                children: [new TextRun({ text: client.name || "", bold: true, size: 24 })],
                             }),
-                            new Paragraph({ text: client.address }),
+                            new Paragraph({ text: client.address || "" }),
                             new Paragraph({ text: client.mf ? `MF: ${client.mf}` : "" }),
                         ]
                     })

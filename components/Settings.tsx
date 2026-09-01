@@ -99,11 +99,15 @@ const Settings: React.FC = () => {
     e.preventDefault();
     
     let updatedCompanies: Company[];
+    const companyToSave: Company = {
+      ...formData,
+      name: formData.name.trim() || 'Entreprise sans nom',
+    };
 
     if (isEditing) {
-      updatedCompanies = companies.map(c => c.id === formData.id ? formData : c);
+      updatedCompanies = companies.map(c => c.id === formData.id ? companyToSave : c);
     } else {
-      const newCompany = { ...formData, id: Date.now().toString() };
+      const newCompany = { ...companyToSave, id: Date.now().toString() };
       if (companies.length === 0) newCompany.isDefault = true;
       updatedCompanies = [...companies, newCompany];
     }
@@ -195,10 +199,9 @@ const Settings: React.FC = () => {
                   {/* Basic Info */}
                   <div className="col-span-2 md:col-span-1 space-y-4">
                       <div>
-                        <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Raison Sociale / Nom *</label>
+                        <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Raison Sociale / Nom (Optionnel)</label>
                         <input
                           type="text"
-                          required
                           value={formData.name}
                           onChange={e => setFormData({...formData, name: e.target.value})}
                           className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
@@ -207,10 +210,9 @@ const Settings: React.FC = () => {
                       </div>
                       
                       <div>
-                        <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Matricule Fiscal (MF) *</label>
+                        <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Matricule Fiscal (MF) (Optionnel)</label>
                         <input
                           type="text"
-                          required
                           value={formData.mf}
                           onChange={e => setFormData({...formData, mf: e.target.value})}
                           className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm font-mono"
@@ -219,10 +221,9 @@ const Settings: React.FC = () => {
                       </div>
 
                       <div>
-                         <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Adresse Complète *</label>
+                         <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Adresse Complète (Optionnel)</label>
                          <textarea
                            rows={2}
-                           required
                            value={formData.address}
                            onChange={e => setFormData({...formData, address: e.target.value})}
                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
