@@ -216,7 +216,11 @@ const InvoiceHistory: React.FC<InvoiceHistoryProps> = ({ onEdit }) => {
                         {invoice.number}
                       </td>
                       <td className="px-5 py-4 whitespace-nowrap text-sm text-gray-800">
-                        <div className="font-medium">{invoice.clientSnap?.name || 'Client sans nom'}</div>
+                        {invoice.clientSnap?.name && invoice.clientSnap.name.trim().toLowerCase() !== 'client sans nom' ? (
+                          <div className="font-medium">{invoice.clientSnap.name}</div>
+                        ) : (
+                          <div className="font-medium text-gray-500 italic">Non renseigné</div>
+                        )}
                         {invoice.clientSnap?.mf && (
                           <div className="text-xs text-gray-400 font-mono">MF : {invoice.clientSnap.mf}</div>
                         )}

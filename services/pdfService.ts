@@ -237,11 +237,13 @@ export const generateInvoicePDF = (invoice: Invoice) => {
   doc.setTextColor(0);
   doc.setFont("helvetica", "bold");
   
-  // Nom du client (multiligne si besoin)
-  const clientName = client.name || 'Client';
-  const clientNameLines = doc.splitTextToSize(clientName, clientWidth);
-  doc.text(clientNameLines, clientX, clientY);
-  clientY += (clientNameLines.length * 6);
+  // Nom du client (multiligne si présent)
+  const clientName = (client.name || '').trim();
+  if (clientName && clientName.toLowerCase() !== 'client sans nom') {
+    const clientNameLines = doc.splitTextToSize(clientName, clientWidth);
+    doc.text(clientNameLines, clientX, clientY);
+    clientY += (clientNameLines.length * 6);
+  }
   
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");

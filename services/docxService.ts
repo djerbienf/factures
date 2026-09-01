@@ -83,9 +83,11 @@ export const generateInvoiceDOCX = async (invoice: Invoice) => {
                         width: { size: 50, type: WidthType.PERCENTAGE },
                         children: [
                             new Paragraph({ text: invoice.type === 'devis' ? "Devis pour :" : "Facturé à :", color: "666666" }),
-                            new Paragraph({
-                                children: [new TextRun({ text: client.name || "", bold: true, size: 24 })],
-                            }),
+                            ...(client.name && client.name.trim().toLowerCase() !== 'client sans nom' ? [
+                                new Paragraph({
+                                    children: [new TextRun({ text: client.name.trim(), bold: true, size: 24 })],
+                                })
+                            ] : []),
                             new Paragraph({ text: client.address || "" }),
                             new Paragraph({ text: client.mf ? `MF: ${client.mf}` : "" }),
                         ]

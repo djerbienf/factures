@@ -634,20 +634,32 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onSaved, editingInv
               onChange={(e) => setSelectedClientId(e.target.value)}
             >
               <option value="">-- Sélectionner un client --</option>
-              {clients.map(client => (
-                <option key={client.id} value={client.id}>
-                    {client.name || 'Client sans nom'}
-                </option>
-              ))}
+              {clients.map(client => {
+                const displayName = client.name && client.name.trim().toLowerCase() !== 'client sans nom' 
+                  ? client.name 
+                  : (client.mf ? `Client (MF: ${client.mf})` : (client.address ? `Client (${client.address.substring(0, 20)}...)` : 'Client'));
+                return (
+                  <option key={client.id} value={client.id}>
+                    {displayName}
+                  </option>
+                );
+              })}
             </select>
             
             {selectedClientId && (
               <div className="text-xs text-gray-700 mt-2 pl-1 space-y-0.5">
-                <p className="font-bold text-sm text-gray-900">{clients.find(c => c.id === selectedClientId)?.name}</p>
-                <p className="text-gray-600">{clients.find(c => c.id === selectedClientId)?.address}</p>
-                {clients.find(c => c.id === selectedClientId)?.mf && (
-                  <p className="text-gray-500 font-mono">MF : {clients.find(c => c.id === selectedClientId)?.mf}</p>
-                )}
+                {(() => {
+                  const sel = clients.find(c => c.id === selectedClientId);
+                  const name = sel?.name?.trim();
+                  const showName = name && name.toLowerCase() !== 'client sans nom';
+                  return (
+                    <>
+                      {showName && <p className="font-bold text-sm text-gray-900">{name}</p>}
+                      {sel?.address && <p className="text-gray-600">{sel.address}</p>}
+                      {sel?.mf && <p className="text-gray-500 font-mono">MF : {sel.mf}</p>}
+                    </>
+                  );
+                })()}
               </div>
             )}
           </div>

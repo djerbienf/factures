@@ -28,7 +28,7 @@ const ClientManager: React.FC = () => {
     let updatedClients;
     const clientToSave: Client = {
       ...formData,
-      name: formData.name.trim() || 'Client sans nom',
+      name: formData.name.trim(),
     };
     
     if (isEditing) {
@@ -183,7 +183,9 @@ const ClientManager: React.FC = () => {
             <div key={client.id} className="bg-white p-5 rounded-xl shadow-xs border border-gray-200 hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
-                  <h3 className="font-bold text-base text-gray-900">{client.name || 'Client sans nom'}</h3>
+                  <h3 className="font-bold text-base text-gray-900">
+                    {client.name?.trim() || (client.mf ? `Client (${client.mf})` : 'Client')}
+                  </h3>
                   {client.mf && (
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 font-mono">
                       <Hash size={13} />
